@@ -8,7 +8,7 @@ var Extende = Vector2(1.4,1.4)
 var target_zoom
 
 func _ready() -> void:
-	Health_Text = $Health_Label
+	Health_Text = $Health_Layer/Health_Label
 	
 	target_zoom = Default
 	zoom = Default
