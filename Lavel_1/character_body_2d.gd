@@ -7,8 +7,8 @@ extends CharacterBody2D
 @onready var hitbox = $Hitbox_Area/Hitbox
 @export var shoot_cooldown = 3
 var can_shoot = true
-var blood = preload("res://Blood.tscn")
-var bullet = preload("res://bullet.tscn")
+var blood = preload("res://Efeitos/Blood.tscn")
+var bullet = preload("res://Efeitos/bullet.tscn")
 var screen_size
 var respawn = Vector2(648.0 , 488.0)
 @onready var mat = $BodySprite.material 

@@ -5,8 +5,8 @@ extends CharacterBody2D
 @export var stop_distance = 250.0
 @export var shoot_cooldown = 0.1
 @export var lose_sight_delay = 5.0
-var bullet = preload("res://bullet.tscn")
-var blood = preload("res://Blood.tscn")
+var bullet = preload("res://Efeitos/bullet.tscn")
+var blood = preload("res://Efeitos/Blood.tscn")
 @onready var mat = $Enemy_Shooter.material
 @onready var target = $"../Player"
 @onready var shoot_point = $Marker2D
@@ -53,14 +53,18 @@ func _process(delta: float) -> void:
 			velocity = direction * speed
 			move_and_slide()
 			rotation = lerp_angle(rotation, direction.angle(), delta * 2)
+			$Enemy_Shooter.play("Walk")
 		else:
 			velocity = Vector2.ZERO
+			$Enemy_Shooter.stop()
 			rotation = lerp_angle(rotation, direction.angle(), delta * 4)
 
 			if can_shoot and target._Enable != false:
 				shoot()
 	else:
+		$Enemy_Shooter.stop()
 		velocity = Vector2.ZERO
+		
 		if search:
 			rotation = lerp_angle(rotation, -direction.angle(), delta * 2)
 

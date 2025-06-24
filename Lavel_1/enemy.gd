@@ -2,10 +2,10 @@ extends CharacterBody2D
 
 @export var health = 100
 @export var speed = 200.0
-@export var stop_distance = 45
+@export var stop_distance = 35
 @export var lose_sight_delay = 5.0  
 @export var attack_cooldown = 0.5
-var blood = preload("res://Blood.tscn")
+var blood = preload("res://Efeitos/Blood.tscn")
 @onready var Hitbox = $E_Area/E_Hitbox
 @onready var target = $"../Player"
 @onready var mat = $Enemy_Runner.material
@@ -68,6 +68,7 @@ func _process(delta: float) -> void:
 				can_attack = false
 				attack_timer = 0.0
 	else:
+		$Enemy_Runner.stop()
 		velocity = Vector2.ZERO
 		if search:
 			rotation = lerp_angle(rotation, -direction.angle(), delta * 2)
