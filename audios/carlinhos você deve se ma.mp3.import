@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d0qteji6fr2un"
+path="res://.godot/imported/carlinhos você deve se ma.mp3-3e6ab752deabeadc852dbf9ebe323f8a.mp3str"
+
+[deps]
+
+source_file="res://audios/carlinhos você deve se ma.mp3"
+dest_files=["res://.godot/imported/carlinhos você deve se ma.mp3-3e6ab752deabeadc852dbf9ebe323f8a.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
