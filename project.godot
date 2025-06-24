@@ -26,6 +26,10 @@ window/size/viewport_width=1368
 window/size/viewport_height=768
 window/stretch/mode="canvas_items"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/inspector_tabs/plugin.cfg", "res://addons/tile_maps_chef/plugin.cfg")
+
 [input]
 
 Cima={

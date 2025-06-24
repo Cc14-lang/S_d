@@ -372,10 +372,10 @@ text = "Tem certeza?"
 horizontal_alignment = 1
 
 [node name="Config_Painel" type="Panel" parent="."]
-offset_left = 397.0
-offset_top = 184.0
-offset_right = 1229.0
-offset_bottom = 696.0
+offset_left = 288.0
+offset_top = 128.0
+offset_right = 1120.0
+offset_bottom = 640.0
 pivot_offset = Vector2(416, 248)
 theme_override_styles/panel = SubResource("StyleBoxTexture_i5y2r")
 
