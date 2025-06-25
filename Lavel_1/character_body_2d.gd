@@ -16,7 +16,7 @@ var respawn = Vector2(648.0 , 488.0)
 func _Stab():
 		hitbox.disabled = false
 		hitbox.debug_color = Color(0.865, 0.001, 0.864, 0.42)
-		$Arm_Right_Sprite.play("")
+		$Arm_Right_Sprite.play("Stab")
 		await get_tree().create_timer(0.5).timeout
 		$Arm_Right_Sprite.stop()
 		hitbox.disabled = true
