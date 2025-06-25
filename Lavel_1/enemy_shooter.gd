@@ -2,11 +2,14 @@ extends CharacterBody2D
 
 @export var health = 100
 @export var speed = 150.0
-@export var stop_distance = 250.0
-@export var shoot_cooldown = 0.1
-@export var lose_sight_delay = 5.0
+@export var stop_distance = 150.0
+@export var shoot_cooldown = 0.5
+@export var lose_sight_delay = 2.0
+
 var bullet = preload("res://Efeitos/bullet.tscn")
 var blood = preload("res://Efeitos/Blood.tscn")
+
+@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var mat = $Enemy_Shooter.material
 @onready var target = $"../Player"
 @onready var shoot_point = $Marker2D
@@ -27,19 +30,22 @@ func morrer():
 		get_parent().add_child(blood_instance)
 	queue_free()
 
+func _ready() -> void:
+	health = 100
+	nav_agent.target_desired_distance = stop_distance
+	nav_agent.max_speed = speed
+
 func _process(delta: float) -> void:
 	if health <= 0:
 		morrer()
 		return
-	
+
 	if target == null:
 		return
 
-	var direction = target.global_position - global_position
-	var distance = direction.length()
+	var distance_to_target = global_position.distance_to(target.global_position)
 
 	if founded:
-		
 		if players_in_area.is_empty():
 			lose_sight_timer += delta
 			if lose_sight_timer >= lose_sight_delay:
@@ -48,24 +54,32 @@ func _process(delta: float) -> void:
 		else:
 			lose_sight_timer = 0.0
 
-		if distance > stop_distance:
-			direction = direction.normalized()
+		nav_agent.target_position = target.global_position
+
+		if not nav_agent.is_navigation_finished():
+			var next_position = nav_agent.get_next_path_position()
+			var direction = (next_position - global_position).normalized()
 			velocity = direction * speed
 			move_and_slide()
 			rotation = lerp_angle(rotation, direction.angle(), delta * 2)
 			$Enemy_Shooter.play("Walk")
 		else:
 			velocity = Vector2.ZERO
+			move_and_slide()
 			$Enemy_Shooter.stop()
+
+			var direction = (target.global_position - global_position).normalized()
 			rotation = lerp_angle(rotation, direction.angle(), delta * 4)
 
-			if can_shoot and target._Enable != false:
+			if can_shoot and target._Enable:
 				shoot()
 	else:
 		$Enemy_Shooter.stop()
 		velocity = Vector2.ZERO
-		
+		move_and_slide()
+
 		if search:
+			var direction = (target.global_position - global_position).normalized()
 			rotation = lerp_angle(rotation, -direction.angle(), delta * 2)
 
 	if not can_shoot:

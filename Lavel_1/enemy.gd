@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var health = 100
 @export var speed = 200.0
 @export var stop_distance = 35
-@export var lose_sight_delay = 5.0  
+@export var lose_sight_delay = 2.0  
 @export var attack_cooldown = 0.5
 
 var blood = preload("res://Efeitos/Blood.tscn")
@@ -56,7 +56,6 @@ func _process(delta: float) -> void:
 		else:
 			lose_sight_timer = 0.0
 
-		# Atualiza o destino de navegação
 		nav_agent.target_position = target.global_position
 
 		if not nav_agent.is_navigation_finished():
