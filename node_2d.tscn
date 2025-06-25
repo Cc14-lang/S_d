@@ -624,14 +624,14 @@ sources/1 = SubResource("TileSetAtlasSource_fshgd")
 metadata/_edit_horizontal_guides_ = [752.0]
 
 [node name="Background_Menu" type="TextureRect" parent="."]
-z_index = -5
+z_index = -10
 texture_filter = 1
 texture_repeat = 3
 material = SubResource("ShaderMaterial_2u7jv")
-offset_left = -1344.0
-offset_top = 400.0
-offset_right = -1089.0
-offset_bottom = 500.0
+offset_left = -1728.0
+offset_top = 608.0
+offset_right = -1376.0
+offset_bottom = 722.0
 scale = Vector2(11.666, 22.2905)
 pivot_offset = Vector2(20.8205, 19.7014)
 texture = SubResource("CurveXYZTexture_24dk6")
