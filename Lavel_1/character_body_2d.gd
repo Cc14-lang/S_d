@@ -16,20 +16,22 @@ var respawn = Vector2(648.0 , 488.0)
 func _Stab():
 		hitbox.disabled = false
 		hitbox.debug_color = Color(0.865, 0.001, 0.864, 0.42)
-		$ArmSprite.play("Punch")
+		$Arm_Right_Sprite.play("")
 		await get_tree().create_timer(0.5).timeout
-		$ArmSprite.stop()
+		$Arm_Right_Sprite.stop()
 		hitbox.disabled = true
 		hitbox.debug_color = Color(0.969, 0.0, 0.965, 0.094)
 
 func _morto():
 	self._Enable = false
-	self.visible = false
+	mat.set("shader_parameter/hit_effect", 0.0)
+	$Arm_Left_Sprite.visible = false
+	$Arm_Right_Sprite.visible = false
 	hitbox.disabled = true
 	if blood:
 		var blood_instance = blood.instantiate()
 		blood_instance.global_position = global_position
-		blood_instance.rotation = self.rotation * -1
+		blood_instance.rotation = rotation + PI
 		get_parent().add_child(blood_instance)
 	
 func _respawn():
@@ -47,7 +49,9 @@ func shoot():
 	get_tree().current_scene.add_child(b)
 	b.global_position = $Marker2D.global_position
 	b.global_rotation = $Marker2D.global_rotation
+	$Arm_Left_Sprite.play("Shoot")
 	await get_tree().create_timer(shoot_cooldown).timeout
+	$Arm_Left_Sprite.stop()
 	can_shoot = true
 
 func _ready() -> void:

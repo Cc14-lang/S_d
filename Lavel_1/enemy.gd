@@ -80,7 +80,6 @@ func _process(delta: float) -> void:
 	else:
 		velocity = Vector2.ZERO
 		$Enemy_Runner.stop()
-
 		if search:
 			var direction_to_target = -(target.global_position - global_position).normalized()
 			rotation = lerp_angle(rotation, -direction_to_target.angle(), delta * 2)
@@ -92,9 +91,11 @@ func _process(delta: float) -> void:
 
 func _attack() -> void:
 	if target:
+		$Arm_Runner.play("Stab")
 		target.health -= 20
 		Hitbox.debug_color = Color(0.865, 0.001, 0.864, 0.42)
 		await get_tree().create_timer(0.3).timeout
+		$Arm_Runner.stop()
 		Hitbox.debug_color = Color(0.969, 0.0, 0.965, 0.094)
 
 func _on_e_area_body_entered(body: Node2D) -> void:
