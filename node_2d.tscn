@@ -54,9 +54,6 @@ shader_parameter/direction_y = 1.0
 [sub_resource type="CurveXYZTexture" id="CurveXYZTexture_24dk6"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_7mj2a"]
-vertices = PackedVector2Array(1142, 510, 266, 510, 266, 201.906, 1142, 194.094)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(256, 192, 256, 520, 1152, 520, 1152, 184)])
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_flf07"]
 radius = 40.0
