@@ -103,5 +103,11 @@ func _physics_process(delta: float) -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is CharacterBody2D:
 		if body.get_meta("Class") == "Enemy":
-			body.health -= 100
+			body.health -= 25
+			var mat_Enemy = body.material
+			if mat_Enemy and mat_Enemy is ShaderMaterial:
+				print(mat_Enemy)
+				mat_Enemy.set("shader_parameter/hit_effect", 1.0)
+				await get_tree().create_timer(0.2).timeout
+				mat_Enemy.set("shader_parameter/hit_effect", 0.0)
 			await get_tree().create_timer(1).timeout

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://rgn4jx8nxr6h"]
 
-[ext_resource type="Script" uid="uid://unqeg58tlrdl" path="res://bullet.gd" id="1_v8qja"]
+[ext_resource type="Script" uid="uid://unqeg58tlrdl" path="res://Efeitos/bullet.gd" id="1_v8qja"]
 [ext_resource type="Texture2D" uid="uid://ci7y3b7wway0y" path="res://icon.svg" id="2_t4vbm"]
 [ext_resource type="Texture2D" uid="uid://dw074ch0fj7t8" path="res://images/Blood.png" id="3_t4vbm"]
 

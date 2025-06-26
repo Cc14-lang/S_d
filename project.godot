@@ -28,7 +28,7 @@ window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/inspector_tabs/plugin.cfg", "res://addons/tile_maps_chef/plugin.cfg")
+enabled=PackedStringArray("res://addons/PointMaker/plugin.cfg", "res://addons/inspector_tabs/plugin.cfg", "res://addons/tile_maps_chef/plugin.cfg")
 
 [input]
 

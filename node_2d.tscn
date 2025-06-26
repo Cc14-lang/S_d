@@ -27,11 +27,11 @@
 [ext_resource type="Texture2D" uid="uid://dl044ffuk45xr" path="res://images/Enemy/Enemy_Walk2.png" id="17_gt76g"]
 [ext_resource type="Texture2D" uid="uid://cbod5mh00pquu" path="res://PunchAnim/Punch_Anim6.png" id="17_q5dlx"]
 [ext_resource type="Texture2D" uid="uid://ccwt0b78splnh" path="res://images/Enemy/Enemy_Walk3.png" id="18_1fr6y"]
-[ext_resource type="Texture2D" uid="uid://cvldaqvaelxrc" path="res://images/Shoot_Anim1.png" id="18_c4wnb"]
 [ext_resource type="Texture2D" uid="uid://bum6sua501tly" path="res://images/Enemy/Enemy_Walk4.png" id="19_2hxjc"]
-[ext_resource type="Texture2D" uid="uid://b1l4fsi2hn3ga" path="res://images/Shoot_Anim2.png" id="19_7plk7"]
+[ext_resource type="Texture2D" uid="uid://dbkxdxap1irg" path="res://PunchAnim/Shoot_Anim1.png" id="19_lbrxf"]
 [ext_resource type="Texture2D" uid="uid://uqdk5c4mky1b" path="res://images/Enemy/Enemy_Walk5.png" id="20_ebxd8"]
-[ext_resource type="Texture2D" uid="uid://critm1wpd56ii" path="res://images/Shoot_Anim3.png" id="20_fbwgr"]
+[ext_resource type="Texture2D" uid="uid://do6nqyfchj4wb" path="res://PunchAnim/Shoot_Anim2.png" id="20_xjt7e"]
+[ext_resource type="Texture2D" uid="uid://hlmkhhg36lc5" path="res://PunchAnim/Shoot_Anim3.png" id="21_0xo8l"]
 [ext_resource type="Texture2D" uid="uid://ccf16spx5pih8" path="res://images/Enemy/Enemy_Walk6.png" id="21_2u7jv"]
 [ext_resource type="Texture2D" uid="uid://ba2yrds2k6wng" path="res://images/Enemy/Enemy_Walk7.png" id="22_24dk6"]
 [ext_resource type="Texture2D" uid="uid://ou4fv5kej3af" path="res://images/Nbar.png" id="23_lbrxf"]
@@ -142,20 +142,20 @@ animations = [{
 [sub_resource type="SpriteFrames" id="SpriteFrames_flf07"]
 animations = [{
 "frames": [{
-"duration": 0.25,
-"texture": ExtResource("18_c4wnb")
+"duration": 0.2,
+"texture": ExtResource("19_lbrxf")
 }, {
-"duration": 0.25,
-"texture": ExtResource("19_7plk7")
+"duration": 0.2,
+"texture": ExtResource("20_xjt7e")
 }, {
-"duration": 0.25,
-"texture": ExtResource("20_fbwgr")
+"duration": 0.2,
+"texture": ExtResource("21_0xo8l")
 }, {
-"duration": 0.25,
-"texture": ExtResource("19_7plk7")
+"duration": 0.5,
+"texture": ExtResource("20_xjt7e")
 }, {
-"duration": 0.25,
-"texture": ExtResource("18_c4wnb")
+"duration": 0.5,
+"texture": ExtResource("19_lbrxf")
 }],
 "loop": false,
 "name": &"Shoot",
@@ -672,12 +672,13 @@ frame = 6
 frame_progress = 0.93814
 
 [node name="Arm_Left_Sprite" type="AnimatedSprite2D" parent="Player"]
+position = Vector2(4.47208, 0.000100862)
 rotation = 1.57079
-scale = Vector2(0.5, 0.5)
+scale = Vector2(2.49999, 2.43589)
 sprite_frames = SubResource("SpriteFrames_flf07")
 animation = &"Shoot"
 frame = 4
-frame_progress = 0.889722
+frame_progress = 1.0
 
 [node name="Hitbox_Area" type="Area2D" parent="Player"]
 position = Vector2(35, 0)
