@@ -48,9 +48,11 @@ func _process(delta: float) -> void:
 	var distance_to_target = global_position.distance_to(target.global_position)
 
 	if founded:
+		$Attentation.play("Target_Subject")
 		if players_in_area.is_empty():
 			lose_sight_timer += delta
 			if lose_sight_timer >= lose_sight_delay:
+				$Attentation.stop()
 				founded = false
 				lose_sight_timer = 0.0
 		else:

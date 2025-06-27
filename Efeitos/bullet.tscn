@@ -12,7 +12,7 @@ height = 10.0
 position = Vector2(640, 384)
 script = ExtResource("1_v8qja")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Bullet_Sprite" type="Sprite2D" parent="."]
 position = Vector2(56.8889, -63.9999)
 scale = Vector2(0.125, 0.0312501)
 texture = ExtResource("2_t4vbm")

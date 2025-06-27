@@ -25,7 +25,7 @@ func _on_body_entered(body: Node2D) -> void:
 					mat.set("shader_parameter/hit_effect", 0.0)
 		queue_free()
 	elif body is TileMapLayer:
-		$Sprite2D.queue_free()
+		$Bullet_Sprite.queue_free()
 		await get_tree().create_timer(0.2).timeout
 		$CPUParticles2D.queue_free()
 		

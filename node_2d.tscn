@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=4 uid="uid://dwy57xveerdgg"]
+[gd_scene load_steps=71 format=4 uid="uid://dwy57xveerdgg"]
 
 [ext_resource type="Shader" uid="uid://b60r2amiolhbm" path="res://Menu_/Pass.gdshader" id="1_2hxjc"]
 [ext_resource type="Texture2D" uid="uid://bh0dqgsy415eu" path="res://images/Walk_Anim-0.png" id="2_4d7sh"]
@@ -44,6 +44,11 @@
 [ext_resource type="Texture2D" uid="uid://0lhlhegwcco7" path="res://PunchAnim/Punch_Anim_Enemy6.png" id="38_0xo8l"]
 [ext_resource type="Texture2D" uid="uid://wbp1n5hnu744" path="res://PunchAnim/Punch_Anim_Enemy7.png" id="39_xfyss"]
 [ext_resource type="Texture2D" uid="uid://bf4cnk0gy27w8" path="res://images/woodtile.png.png" id="42_7mj2a"]
+[ext_resource type="Texture2D" uid="uid://ddrdjtnpaywl6" path="res://Efeitos/Img/Atenção1.png" id="42_qilgh"]
+[ext_resource type="Texture2D" uid="uid://vmnbjr0y5ok7" path="res://Efeitos/Img/Atenção2.png" id="43_4qosj"]
+[ext_resource type="Texture2D" uid="uid://dc4i25uqcln3u" path="res://Efeitos/Img/Atenção3.png" id="44_cjlbh"]
+[ext_resource type="Texture2D" uid="uid://u2l7unt335js" path="res://Efeitos/Img/Atenção4.png" id="45_kfelt"]
+[ext_resource type="Texture2D" uid="uid://cl5uel7ptqsg3" path="res://Efeitos/Img/Atenção5.png" id="46_ytlpd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2u7jv"]
 shader = ExtResource("1_2hxjc")
@@ -231,6 +236,29 @@ animations = [{
 }],
 "loop": false,
 "name": &"Stab",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2v765"]
+animations = [{
+"frames": [{
+"duration": 0.7,
+"texture": ExtResource("42_qilgh")
+}, {
+"duration": 0.7,
+"texture": ExtResource("43_4qosj")
+}, {
+"duration": 0.7,
+"texture": ExtResource("44_cjlbh")
+}, {
+"duration": 0.7,
+"texture": ExtResource("45_kfelt")
+}, {
+"duration": 0.7,
+"texture": ExtResource("46_ytlpd")
+}],
+"loop": false,
+"name": &"Target_Subject",
 "speed": 5.0
 }]
 
@@ -737,7 +765,7 @@ texture = ExtResource("16_1fr6y")
 
 [node name="Enemy_Runner" type="CharacterBody2D" parent="."]
 position = Vector2(240, 1168)
-rotation = -1.83259
+rotation = -1.57079
 script = ExtResource("12_0h7mo")
 metadata/Class = "Enemy"
 
@@ -767,6 +795,12 @@ sprite_frames = SubResource("SpriteFrames_3ngjr")
 animation = &"Stab"
 frame = 6
 frame_progress = 1.0
+
+[node name="Attentation" type="AnimatedSprite2D" parent="Enemy_Runner"]
+position = Vector2(-15, 3.27388e-05)
+rotation = -1.57079
+sprite_frames = SubResource("SpriteFrames_2v765")
+animation = &"Target_Subject"
 
 [node name="E_Area" type="Area2D" parent="Enemy_Runner"]
 position = Vector2(21, 0)
