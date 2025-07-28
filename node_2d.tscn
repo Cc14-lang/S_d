@@ -770,7 +770,7 @@ rotation = -1.57079
 script = ExtResource("12_0h7mo")
 metadata/Class = "Enemy"
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Enemy_Runner"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Enemy_Runner"]
 stream = ExtResource("28_4qosj")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="Enemy_Runner"]

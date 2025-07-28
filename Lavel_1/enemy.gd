@@ -8,7 +8,7 @@ extends CharacterBody2D
 
 var blood = preload("res://Efeitos/Blood.tscn")
 
-@onready var audio = $AudioStreamPlayer2D
+@onready var audio = $AudioStreamPlayer
 @onready var Hitbox = $E_Area/E_Hitbox
 @onready var target = $"../Player"
 @onready var mat = $Enemy_Runner.material
