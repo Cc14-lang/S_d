@@ -3,7 +3,7 @@
 [ext_resource type="Shader" uid="uid://c1hof2u0lir8f" path="res://Menu_/Menu.gdshader" id="1_n4eug"]
 [ext_resource type="Script" uid="uid://dd8nju07qjh0t" path="res://Menu_/button.gd" id="1_uubjt"]
 [ext_resource type="Script" uid="uid://0h8be0ie4jo3" path="res://Menu_/Botão_Sair.gd" id="2_5yleq"]
-[ext_resource type="Texture2D" uid="uid://bh1t4lkphb8x0" path="res://images/0a5ea1cf-3f9d-4926-b554-117c5e4d3e67.png" id="2_dlksc"]
+[ext_resource type="Texture2D" uid="uid://bmmjggiv020im" path="res://images/Background.png" id="2_dlksc"]
 [ext_resource type="Script" uid="uid://vgy68vou08kv" path="res://Menu_/yes.gd" id="3_cx167"]
 [ext_resource type="Shader" uid="uid://b60r2amiolhbm" path="res://Menu_/Pass.gdshader" id="3_v0s1l"]
 [ext_resource type="Script" uid="uid://jsu1iyv2s18w" path="res://Menu_/no.gd" id="3_ylpcl"]
@@ -15,9 +15,9 @@
 [ext_resource type="AudioStream" uid="uid://cpii7bj6p82hj" path="res://Sound/ui_click.wav" id="8_hcwhg"]
 [ext_resource type="AudioStream" uid="uid://bigqyyi5t2lmh" path="res://Sound/ui_return.wav" id="9_5p1lm"]
 [ext_resource type="Script" uid="uid://c4qn5ppye0b2l" path="res://Menu_/button_3.gd" id="10_ags3h"]
-[ext_resource type="Texture2D" uid="uid://bkq6c7mqg0vtl" path="res://images/Fundo_Painel.png" id="11_7pg7o"]
 [ext_resource type="Texture2D" uid="uid://demvgf12i117p" path="res://images/sprite_retorno_1/Press_Retorna.png" id="14_jjijr"]
 [ext_resource type="Texture2D" uid="uid://1xf02k2p6mrd" path="res://images/sprite_retorno_1/Retorno.png" id="15_5o4rr"]
+[ext_resource type="Texture2D" uid="uid://bkq6c7mqg0vtl" path="res://Menu_/Fundo_Painel.png" id="15_gsxx4"]
 [ext_resource type="Script" uid="uid://daxce2ndikr7" path="res://Menu_/Exit_Button.gd" id="16_5o4rr"]
 [ext_resource type="Texture2D" uid="uid://dyyg8jxx8asua" path="res://images/Setas_Anim/Setas_Teclado.png" id="18_658fm"]
 [ext_resource type="Texture2D" uid="uid://cishi46oj80ba" path="res://images/Setas_Anim/Setas_Teclado-1.png" id="19_8xofk"]
@@ -53,15 +53,14 @@ shader_parameter/direction_y = 1.0
 [sub_resource type="CurveXYZTexture" id="CurveXYZTexture_rb3nl"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rwbgt"]
-texture = ExtResource("11_7pg7o")
 texture_margin_left = 1.0
 texture_margin_top = 1.0
 texture_margin_right = 1.0
 texture_margin_bottom = 1.0
 region_rect = Rect2(-1, -1, 641, 327)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i5y2r"]
-texture = ExtResource("11_7pg7o")
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1pqlq"]
+texture = ExtResource("15_gsxx4")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5o4rr"]
 
@@ -372,21 +371,24 @@ text = "Tem certeza?"
 horizontal_alignment = 1
 
 [node name="Config_Painel" type="Panel" parent="."]
-offset_left = 288.0
-offset_top = 128.0
-offset_right = 1120.0
-offset_bottom = 640.0
+offset_left = 313.0
+offset_top = 122.0
+offset_right = 1189.0
+offset_bottom = 663.0
 pivot_offset = Vector2(416, 248)
-theme_override_styles/panel = SubResource("StyleBoxTexture_i5y2r")
+theme_override_styles/panel = SubResource("StyleBoxTexture_1pqlq")
 
 [node name="Button" type="Button" parent="Config_Painel"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.962
-anchor_right = 1.0
-anchor_bottom = 0.062
-offset_left = -0.384033
-offset_bottom = 0.255999
+anchor_left = 0.93
+anchor_top = 0.065
+anchor_right = 0.969
+anchor_bottom = 0.127
+offset_left = 0.319946
+offset_top = -0.165001
+offset_right = -0.172058
+offset_bottom = 0.0910034
 theme_override_styles/focus = SubResource("StyleBoxEmpty_5o4rr")
 theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_7pg7o")
 theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_8halt")
@@ -398,22 +400,23 @@ script = ExtResource("16_5o4rr")
 [node name="Label" type="Label" parent="Config_Painel"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.019
-anchor_top = 0.016
-anchor_right = 0.154
-anchor_bottom = 0.078
-offset_left = 0.191999
-offset_top = -0.192
-offset_right = 39.872
-offset_bottom = 8.064
+anchor_left = 0.031
+anchor_top = 0.046
+anchor_right = 0.199
+anchor_bottom = 0.107
+offset_left = -0.156002
+offset_top = 0.113998
+offset_right = -0.32402
+offset_bottom = 2.113
+pivot_offset = Vector2(76, 21)
 theme_override_fonts/font = ExtResource("7_rb3nl")
 theme_override_font_sizes/font_size = 19
 text = "Controles"
 horizontal_alignment = 1
 
 [node name="Keys_WSAD" type="AnimatedSprite2D" parent="Config_Painel"]
-position = Vector2(192, 133)
-scale = Vector2(0.314901, 0.313546)
+position = Vector2(185, 138)
+scale = Vector2(0.269933, 0.267652)
 sprite_frames = SubResource("SpriteFrames_1v1ua")
 animation = &"Keys_A"
 script = ExtResource("23_8xofk")
@@ -434,14 +437,14 @@ text = "(Movimentação)"
 horizontal_alignment = 1
 
 [node name="Mouse" type="AnimatedSprite2D" parent="Config_Painel"]
-position = Vector2(630, 120)
+position = Vector2(605, 137)
 scale = Vector2(1.0875, 1.1875)
 sprite_frames = SubResource("SpriteFrames_8iivf")
 script = ExtResource("26_ibmel")
 
 [node name="Keys_F" type="AnimatedSprite2D" parent="Config_Painel"]
-position = Vector2(355, 172.75)
-scale = Vector2(2.25195, 2.20312)
+position = Vector2(283, 88)
+scale = Vector2(1.85986, 1.71875)
 sprite_frames = SubResource("SpriteFrames_4plug")
 script = ExtResource("31_ruq72")
 

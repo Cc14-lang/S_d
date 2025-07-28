@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=4 uid="uid://dwy57xveerdgg"]
+[gd_scene load_steps=72 format=4 uid="uid://dwy57xveerdgg"]
 
 [ext_resource type="Shader" uid="uid://b60r2amiolhbm" path="res://Menu_/Pass.gdshader" id="1_2hxjc"]
 [ext_resource type="Texture2D" uid="uid://bh0dqgsy415eu" path="res://images/Walk_Anim-0.png" id="2_4d7sh"]
@@ -36,6 +36,7 @@
 [ext_resource type="Texture2D" uid="uid://ba2yrds2k6wng" path="res://images/Enemy/Enemy_Walk7.png" id="22_24dk6"]
 [ext_resource type="Texture2D" uid="uid://ou4fv5kej3af" path="res://images/Nbar.png" id="23_lbrxf"]
 [ext_resource type="FontFile" uid="uid://bg7m55wv7nf87" path="res://Menu_/Silkscreen-Regular.ttf" id="24_xjt7e"]
+[ext_resource type="AudioStream" uid="uid://dhp5p4mcc2gg0" path="res://audios/Alert_Sound.mp3" id="28_4qosj"]
 [ext_resource type="Texture2D" uid="uid://bhyih7bv4uudu" path="res://PunchAnim/Punch_Anim_Enemy1.png" id="33_fbwgr"]
 [ext_resource type="Texture2D" uid="uid://cia1ce53j0fdh" path="res://PunchAnim/Punch_Anim_Enemy2.png" id="34_7mj2a"]
 [ext_resource type="Texture2D" uid="uid://xg3j1m0ce6jd" path="res://PunchAnim/Punch_Anim_Enemy3.png" id="35_fshgd"]
@@ -768,6 +769,9 @@ position = Vector2(240, 1168)
 rotation = -1.57079
 script = ExtResource("12_0h7mo")
 metadata/Class = "Enemy"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Enemy_Runner"]
+stream = ExtResource("28_4qosj")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="Enemy_Runner"]
 avoidance_enabled = true

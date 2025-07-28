@@ -8,6 +8,7 @@ extends CharacterBody2D
 
 var blood = preload("res://Efeitos/Blood.tscn")
 
+@onready var audio = $AudioStreamPlayer2D
 @onready var Hitbox = $E_Area/E_Hitbox
 @onready var target = $"../Player"
 @onready var mat = $Enemy_Runner.material
@@ -49,6 +50,9 @@ func _process(delta: float) -> void:
 
 	if founded:
 		$Attentation.play("Target_Subject")
+		audio.play()
+		await get_tree().create_timer(0.7).timeout
+		$Attentation.stop()
 		if players_in_area.is_empty():
 			lose_sight_timer += delta
 			if lose_sight_timer >= lose_sight_delay:
