@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://c56ua5ogcw3kg"]
+[gd_scene load_steps=69 format=3 uid="uid://c56ua5ogcw3kg"]
 
 [ext_resource type="Shader" uid="uid://c1hof2u0lir8f" path="res://Menu_/Menu.gdshader" id="1_n4eug"]
 [ext_resource type="Script" uid="uid://dd8nju07qjh0t" path="res://Menu_/button.gd" id="1_uubjt"]
@@ -37,6 +37,7 @@
 [ext_resource type="Texture2D" uid="uid://dj085cqa5xbfj" path="res://Menu_/Button_Mark2.png" id="33_4plug"]
 [ext_resource type="Script" uid="uid://b70iywjwy23ca" path="res://Menu_/audio_button.gd" id="33_sqyja"]
 [ext_resource type="Texture2D" uid="uid://bfdejgs5q2dst" path="res://Menu_/Button_Mark3.png" id="35_gsxx4"]
+[ext_resource type="Script" uid="uid://b4re16nohjxwq" path="res://Menu_/fps_button.gd" id="36_ql8eh"]
 [ext_resource type="AudioStream" uid="uid://c1gx8o2mtugwb" path="res://Sound/nujabes luv _sic_ intro loop - yooo - SoundLoadMate.com.mp3" id="38_gsxx4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hcwhg"]
@@ -378,19 +379,20 @@ offset_top = 122.0
 offset_right = 1189.0
 offset_bottom = 663.0
 pivot_offset = Vector2(416, 248)
+size_flags_stretch_ratio = 0.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_1pqlq")
 
 [node name="Button" type="Button" parent="Config_Painel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.93
-anchor_top = 0.065
-anchor_right = 0.969
+anchor_top = 0.127
+anchor_right = 0.931
 anchor_bottom = 0.127
-offset_left = 0.319946
-offset_top = -0.165001
-offset_right = -0.172058
-offset_bottom = 0.0910034
+offset_left = 16.3199
+offset_top = -56.707
+offset_right = 49.1159
+offset_bottom = -22.909
 theme_override_styles/focus = SubResource("StyleBoxEmpty_5o4rr")
 theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_7pg7o")
 theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_8halt")
@@ -444,11 +446,36 @@ scale = Vector2(4.02878, 4.43673)
 sprite_frames = SubResource("SpriteFrames_8iivf")
 script = ExtResource("26_ibmel")
 
+[node name="Label" type="Label" parent="Config_Painel/Keys_WSAD/Mouse"]
+offset_left = -110.346
+offset_top = -85.0527
+offset_right = -30.3458
+offset_bottom = -62.0527
+theme_override_fonts/font = ExtResource("24_8iivf")
+text = "(Atirar)"
+
+[node name="Label2" type="Label" parent="Config_Painel/Keys_WSAD/Mouse"]
+offset_left = 36.7806
+offset_top = -85.0527
+offset_right = 154.781
+offset_bottom = -62.0527
+theme_override_fonts/font = ExtResource("24_8iivf")
+text = "(Esfaquear)"
+
 [node name="Keys_F" type="AnimatedSprite2D" parent="Config_Painel"]
 position = Vector2(283, 102)
 scale = Vector2(1.86743, 1.89062)
 sprite_frames = SubResource("SpriteFrames_4plug")
 script = ExtResource("31_ruq72")
+
+[node name="Label" type="Label" parent="Config_Painel/Keys_F"]
+offset_left = 19.0
+offset_top = -13.0
+offset_right = 63.0
+offset_bottom = 4.0
+theme_override_fonts/font = ExtResource("24_8iivf")
+theme_override_font_sizes/font_size = 11
+text = "(Zoom)"
 
 [node name="Audio_Button" type="Button" parent="Config_Painel"]
 layout_mode = 1
@@ -494,6 +521,50 @@ offset_bottom = 0.0320282
 theme_override_fonts/font = ExtResource("24_8iivf")
 text = "(Mutar Audio)"
 
+[node name="Fps_Button" type="Button" parent="Config_Painel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.093
+anchor_top = 0.641
+anchor_right = 0.212
+anchor_bottom = 0.828
+offset_left = 171.532
+offset_top = 0.219025
+offset_right = 171.524
+offset_bottom = 0.475006
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4plug")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_gsxx4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ql8eh")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_1pqlq")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_nj1i6")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_0tpwp")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ivctv")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_t46gr")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_4plug")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_qrd4c")
+theme_override_styles/normal = SubResource("StyleBoxTexture_ql8eh")
+script = ExtResource("36_ql8eh")
+
+[node name="Sprite2D" type="Sprite2D" parent="Config_Painel/Fps_Button"]
+visible = false
+position = Vector2(49.5, 48)
+scale = Vector2(5.4375, 5.25)
+texture = ExtResource("35_gsxx4")
+
+[node name="Label" type="Label" parent="Config_Painel/Fps_Button"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.182
+anchor_top = 1.063
+anchor_right = 1.212
+anchor_bottom = 1.333
+offset_left = 0.0180016
+offset_top = 1.95203
+offset_right = 0.012001
+offset_bottom = 0.0320282
+theme_override_fonts/font = ExtResource("24_8iivf")
+text = "(Mostrar FPS)"
+
 [node name="UiClick" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_hcwhg")
 
@@ -518,6 +589,27 @@ offset_bottom = 768.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
+[node name="Fps" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 1272.0
+offset_right = 1362.0
+offset_bottom = 157.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.96, 1)
+pivot_offset = Vector2(30.1666, 54)
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("24_8iivf")
+theme_override_font_sizes/font_size = 40
+text = "60
+"
+horizontal_alignment = 1
+
 [connection signal="pressed" from="Painel_Principal/Button" to="Painel_Principal/Button" method="_on_pressed"]
 [connection signal="mouse_entered" from="Painel_Principal/Button2" to="Painel_Principal" method="_on_button_2_mouse_entered"]
 [connection signal="mouse_exited" from="Painel_Principal/Button2" to="Painel_Principal" method="_on_button_2_mouse_exited"]
@@ -529,4 +621,5 @@ metadata/_edit_use_anchors_ = true
 [connection signal="pressed" from="Menu_Saida/No" to="Menu_Saida/No" method="_on_pressed"]
 [connection signal="pressed" from="Config_Painel/Button" to="Config_Painel/Button" method="_on_pressed"]
 [connection signal="pressed" from="Config_Painel/Audio_Button" to="Config_Painel/Audio_Button" method="_on_pressed"]
+[connection signal="pressed" from="Config_Painel/Fps_Button" to="Config_Painel/Fps_Button" method="_on_pressed"]
 [connection signal="animation_finished" from="Transition" to="Painel_Principal/Button" method="_on_transition_animation_finished"]
