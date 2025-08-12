@@ -1,6 +1,7 @@
-[gd_scene load_steps=72 format=4 uid="uid://dwy57xveerdgg"]
+[gd_scene load_steps=73 format=4 uid="uid://dwy57xveerdgg"]
 
 [ext_resource type="Shader" uid="uid://b60r2amiolhbm" path="res://Menu_/Pass.gdshader" id="1_2hxjc"]
+[ext_resource type="Script" uid="uid://0yicvic84dma" path="res://Lavel_1/Scene_Level1.gd" id="1_cjlbh"]
 [ext_resource type="Texture2D" uid="uid://bh0dqgsy415eu" path="res://images/Walk_Anim-0.png" id="2_4d7sh"]
 [ext_resource type="Script" uid="uid://jwy1c1hbm5ms" path="res://Menu_/texture_rect_Animation.gd" id="2_ebxd8"]
 [ext_resource type="Script" uid="uid://cciwmqvuv5tkr" path="res://Lavel_1/character_body_2d.gd" id="2_ir8iy"]
@@ -652,6 +653,7 @@ sources/0 = SubResource("TileSetAtlasSource_7mj2a")
 sources/1 = SubResource("TileSetAtlasSource_fshgd")
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_cjlbh")
 metadata/_edit_horizontal_guides_ = [752.0]
 
 [node name="Background_Menu" type="TextureRect" parent="."]
@@ -758,6 +760,7 @@ scale = Vector2(0.0271431, 0.0278888)
 texture = ExtResource("15_gt76g")
 
 [node name="Sh_Layer" type="CanvasLayer" parent="Camera2D"]
+visible = false
 
 [node name="Shadow" type="Sprite2D" parent="Camera2D/Sh_Layer"]
 position = Vector2(684, 383.5)

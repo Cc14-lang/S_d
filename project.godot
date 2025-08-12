@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GlobalButton="*res://Menu_/button.gd"
+Global="*res://global.gd"
 
 [display]
 

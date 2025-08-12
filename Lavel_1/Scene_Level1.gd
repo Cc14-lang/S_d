@@ -1,17 +1,12 @@
-extends Button
+extends Node2D
 
-@onready var spritechild = get_child(0)
 @onready var Fps_Label = preload("res://Fps-Layer.tscn")
 var fps_in: Node = null
 
-func _on_pressed() -> void:
-	Global.togglefp = !Global.togglefp
-	spritechild.visible = Global.togglefp
-
+func _ready() -> void:
 	if Global.togglefp:
 		fps_in = Fps_Label.instantiate()
 		get_tree().current_scene.add_child(fps_in)
-		
 	else:
 		if fps_in:
 			fps_in.queue_free()

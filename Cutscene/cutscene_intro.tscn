@@ -1,18 +1,17 @@
-[gd_scene load_steps=11 format=3 uid="uid://b6rawjg6ophh5"]
+[gd_scene load_steps=10 format=3 uid="uid://b6rawjg6ophh5"]
 
 [ext_resource type="Script" uid="uid://bi0l0fc2u5frl" path="res://Cutscene/cutscene_intro.gd" id="1_0er1f"]
 [ext_resource type="Script" uid="uid://cmpikd7xogicg" path="res://Cutscene/Dialog_System.gd" id="1_2gyaq"]
-[ext_resource type="Texture2D" uid="uid://bkq6c7mqg0vtl" path="res://images/Fundo_Painel.png" id="3_2s7d7"]
 [ext_resource type="FontFile" uid="uid://bg7m55wv7nf87" path="res://Menu_/Silkscreen-Regular.ttf" id="4_2s7d7"]
 [ext_resource type="Texture2D" uid="uid://cgc3qh7plddab" path="res://Cutscene/Img_Cutscene/Wip.webp" id="5_7x07y"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_03e8i"]
-texture = ExtResource("3_2s7d7")
-texture_margin_left = 101.0
-texture_margin_top = 82.0
-texture_margin_right = 101.0
-texture_margin_bottom = 67.0
-region_rect = Rect2(0, 0, 640, 321)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2s7d7"]
+bg_color = Color(0.0807833, 0.0807834, 0.0807833, 1)
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [sub_resource type="Animation" id="Animation_0edib"]
 resource_name = "Fade_To_Black"
@@ -108,16 +107,13 @@ offset_top = 576.0
 offset_right = 1360.0
 offset_bottom = 768.0
 pivot_offset = Vector2(680, 96)
-theme_override_styles/panel = SubResource("StyleBoxTexture_03e8i")
+theme_override_styles/panel = SubResource("StyleBoxFlat_2s7d7")
 
 [node name="DialogueLabel" type="Label" parent="Control/Panel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.958
-offset_left = 16.0
-offset_top = 8.0
-offset_right = -16.0
 offset_bottom = 8.064
 theme_override_fonts/font = ExtResource("4_2s7d7")
 theme_override_font_sizes/font_size = 30
