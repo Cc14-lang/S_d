@@ -5,7 +5,11 @@ extends CharacterBody2D
 @export var _Enable = true
 @export var lerp_smooth = 10	
 @onready var hitbox = $Hitbox_Area/Hitbox
+@onready var timerlabel = $"../Camera2D/Timer_Layer/Timer_Number"
 @export var shoot_cooldown = 3
+var roll_cooldown = 4.0
+var roll_timer = 0.0
+var can_roll = true
 var can_shoot = true
 var blood = preload("res://Efeitos/Blood.tscn")
 var bullet = preload("res://Efeitos/bullet.tscn")
@@ -39,6 +43,19 @@ func _respawn():
 	self.position = respawn
 	get_tree().reload_current_scene()
 	
+
+func _Roll():
+	if not can_roll:
+		return
+	can_roll = false
+	var mouse_pos = get_global_mouse_position()
+	var dir_vector = (mouse_pos - global_position).normalized()
+	self.velocity = dir_vector * speed * 5
+	await get_tree().create_timer(0.2).timeout
+	self.velocity = Vector2.ZERO
+	await get_tree().create_timer(roll_cooldown).timeout
+	can_roll = true
+
 func shoot():
 	if not can_shoot:
 		return
@@ -93,12 +110,26 @@ func _physics_process(delta: float) -> void:
 		
 		if Input.is_action_just_pressed("Mouse_Esquerdo"):
 			shoot()
+			
+		if Input.is_action_just_pressed("Tecla_E"):
+			if  not can_roll:
+				return
+			_Roll()
 		
 	if health <= 0: 
 		_morto()
 		if Input.is_action_just_pressed("Enter"):
 			health = 100
 			_respawn()
+			
+	if not can_roll:
+		roll_timer += delta
+		var time_left = roll_cooldown - roll_timer
+		timerlabel.text = str(int(time_left))
+		if roll_timer >= roll_cooldown:
+			can_roll = true
+			roll_timer = 0.0
+			timerlabel.text = ""
 		
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is CharacterBody2D:

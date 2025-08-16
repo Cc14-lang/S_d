@@ -2,7 +2,7 @@ extends Camera2D
 
 @onready var Player = $"../Player" as CharacterBody2D
 var Health_Text
-var Default = Vector2(1.8 , 1.8)
+var Default = Vector2(1.9 , 1.9)
 var lerp_value = 0.1
 var Extende = Vector2(1.4,1.4)
 var target_zoom

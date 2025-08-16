@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var health = 100
 @export var speed = 200.0
+@export var _Enable = true
 @export var stop_distance = 35
 @export var lose_sight_delay = 2.0  
 @export var attack_cooldown = 0.5
@@ -42,57 +43,58 @@ func _process(delta: float) -> void:
 	if health <= 0:
 		morrer()
 		return
-	
-	if target == null:
-		return
+	if _Enable:
 
-	var distance_to_target = global_position.distance_to(target.global_position)
+		if target == null:
+			return
 
-	if founded:
-		$Attentation.play("Target_Subject")
-		audio.play()
-		await get_tree().create_timer(0.7).timeout
-		$Attentation.stop()
-		if players_in_area.is_empty():
-			lose_sight_timer += delta
-			if lose_sight_timer >= lose_sight_delay:
-				$Attentation.stop()
-				founded = false
+		var distance_to_target = global_position.distance_to(target.global_position)
+
+		if founded:
+			$Attentation.play("Target_Subject")
+			audio.play()
+			await get_tree().create_timer(0.7).timeout
+			$Attentation.stop()
+			if players_in_area.is_empty():
+				lose_sight_timer += delta
+				if lose_sight_timer >= lose_sight_delay:
+					$Attentation.stop()
+					founded = false
+					lose_sight_timer = 0.0
+			else:
 				lose_sight_timer = 0.0
-		else:
-			lose_sight_timer = 0.0
 
-		nav_agent.target_position = target.global_position
+			nav_agent.target_position = target.global_position
 
-		if not nav_agent.is_navigation_finished():
-			var next_position = nav_agent.get_next_path_position()
-			var direction = (next_position - global_position).normalized()
-			velocity = direction * speed
-			move_and_slide()
-			rotation = lerp_angle(rotation, direction.angle(), delta * 4)
-			$Enemy_Runner.play("Walk")
-			can_attack = false
+			if not nav_agent.is_navigation_finished():
+				var next_position = nav_agent.get_next_path_position()
+				var direction = (next_position - global_position).normalized()
+				velocity = direction * speed
+				move_and_slide()
+				rotation = lerp_angle(rotation, direction.angle(), delta * 4)
+				$Enemy_Runner.play("Walk")
+				can_attack = false
+			else:
+				velocity = Vector2.ZERO
+				$Enemy_Runner.stop()
+				var direction_to_target = (target.global_position - global_position).normalized()
+				rotation = lerp_angle(rotation, direction_to_target.angle(), delta * 4)
+
+				if can_attack and not players_in_area.is_empty() and target._Enable != false:
+					_attack()
+					can_attack = false
+					attack_timer = 0.0
 		else:
 			velocity = Vector2.ZERO
 			$Enemy_Runner.stop()
-			var direction_to_target = (target.global_position - global_position).normalized()
-			rotation = lerp_angle(rotation, direction_to_target.angle(), delta * 4)
+			if search:
+				var direction_to_target = -(target.global_position - global_position).normalized()
+				rotation = lerp_angle(rotation, -direction_to_target.angle(), delta * 2)
 
-			if can_attack and not players_in_area.is_empty() and target._Enable != false:
-				_attack()
-				can_attack = false
-				attack_timer = 0.0
-	else:
-		velocity = Vector2.ZERO
-		$Enemy_Runner.stop()
-		if search:
-			var direction_to_target = -(target.global_position - global_position).normalized()
-			rotation = lerp_angle(rotation, -direction_to_target.angle(), delta * 2)
-
-	if not can_attack:
-		attack_timer += delta
-		if attack_timer >= attack_cooldown:
-			can_attack = true
+		if not can_attack:
+			attack_timer += delta
+			if attack_timer >= attack_cooldown:
+				can_attack = true
 
 func _attack() -> void:
 	if target:

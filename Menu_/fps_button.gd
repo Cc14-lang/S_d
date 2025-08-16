@@ -1,7 +1,7 @@
 extends Button
 
 @onready var spritechild = get_child(0)
-@onready var Fps_Label = preload("res://Fps-Layer.tscn")
+@onready var Fps_Label = preload("res://Efeitos/Fps-Layer.tscn")
 var fps_in: Node = null
 
 func _on_pressed() -> void:

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://caxlik6rnmi2q"
-path="res://.godot/imported/Punch_Anim4.png-df880907a160aeec05233537c2ed12e9.ctex"
+path="res://.godot/imported/Punch_Anim4.png-be3f64eab04b3c632c018abeaacb1ceb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/Punch_Anim4.png"
-dest_files=["res://.godot/imported/Punch_Anim4.png-df880907a160aeec05233537c2ed12e9.ctex"]
+source_file="res://images/Player_/Punch_Anim4.png"
+dest_files=["res://.godot/imported/Punch_Anim4.png-be3f64eab04b3c632c018abeaacb1ceb.ctex"]
 
 [params]
 
