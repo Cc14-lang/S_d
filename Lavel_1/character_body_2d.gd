@@ -5,7 +5,7 @@ extends CharacterBody2D
 @export var _Enable = true
 @export var lerp_smooth = 10	
 @onready var hitbox = $Hitbox_Area/Hitbox
-@onready var timerlabel = $"../Camera2D/Timer_Layer/Timer_Number"
+@onready var timerlabel = $"../Camera2D/Timer_Layer"
 @export var shoot_cooldown = 3
 var roll_cooldown = 4.0
 var roll_timer = 0.0
@@ -50,11 +50,9 @@ func _Roll():
 	can_roll = false
 	var mouse_pos = get_global_mouse_position()
 	var dir_vector = (mouse_pos - global_position).normalized()
-	self.velocity = dir_vector * speed * 5
-	await get_tree().create_timer(0.2).timeout
+	self.velocity = dir_vector * speed * 4
+	await get_tree().create_timer(0.4).timeout
 	self.velocity = Vector2.ZERO
-	await get_tree().create_timer(roll_cooldown).timeout
-	can_roll = true
 
 func shoot():
 	if not can_shoot:
@@ -74,6 +72,7 @@ func shoot():
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
 	mat.set("shader_parameter/hit_effect", 0.0)
+	timerlabel.visible = false
 	
 func _physics_process(delta: float) -> void:
 	if _Enable == true:
@@ -112,7 +111,7 @@ func _physics_process(delta: float) -> void:
 			shoot()
 			
 		if Input.is_action_just_pressed("Tecla_E"):
-			if  not can_roll:
+			if not can_roll:
 				return
 			_Roll()
 		
@@ -125,11 +124,14 @@ func _physics_process(delta: float) -> void:
 	if not can_roll:
 		roll_timer += delta
 		var time_left = roll_cooldown - roll_timer
-		timerlabel.text = str(int(time_left))
-		if roll_timer >= roll_cooldown:
+		if time_left < 0:
+			time_left = 0
+			roll_timer = 0
 			can_roll = true
-			roll_timer = 0.0
-			timerlabel.text = ""
+			timerlabel.visible = false
+		else:
+			timerlabel.visible = true
+			timerlabel.get_child(0).text = "%.1f s" % time_left
 		
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is CharacterBody2D:
