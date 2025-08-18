@@ -18,7 +18,6 @@ var target_zoom
 
 func _ready() -> void:
 	Health_Text = $Health_Layer/Health_Img/Helth_Number
-	Shadow_Layer.modulate = a
 	target_zoom = Default
 	zoom = Default
 
@@ -27,11 +26,9 @@ func _process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("Zoom"):
 		target_zoom = Extende
-		target_color = b
 		
 	elif Input.is_action_just_released("Zoom"):
 		target_zoom = Default
-		target_color = a
 	
 	if Player:
 		Health_Text.text = str(Player.health)
@@ -43,4 +40,3 @@ func _process(delta: float) -> void:
 		Health_Text.text = "Ts pmo😭🥀🥀"
 	else:
 		zoom = zoom.lerp(target_zoom, lerp_value)
-		Shadow_Layer.self_modulate = Shadow_Layer.self_modulate.lerp(target_color, lerp_value)
