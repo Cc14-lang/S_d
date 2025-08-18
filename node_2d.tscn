@@ -486,6 +486,9 @@ debug_color = Color(0.956989, 0.154562, 0.359347, 0.42)
 [node name="Marker2D" type="Marker2D" parent="Player"]
 position = Vector2(40, 4)
 
+[node name="Ghost_Timer" type="Timer" parent="Player"]
+wait_time = 0.1
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(440, 1290)
 zoom = Vector2(3, 3)
@@ -660,6 +663,7 @@ scale = Vector2(4, 4)
 texture = ExtResource("50_4qosj")
 
 [connection signal="body_entered" from="Player/Hitbox_Area" to="Player" method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Player/Ghost_Timer" to="Player" method="_on_ghost_timer_timeout"]
 [connection signal="body_entered" from="Enemy_Runner/E_Area" to="Enemy_Runner" method="_on_e_area_body_entered"]
 [connection signal="body_entered" from="Enemy_Runner/D_Area" to="Enemy_Runner" method="_on_d_area_body_entered"]
 [connection signal="body_exited" from="Enemy_Runner/D_Area" to="Enemy_Runner" method="_on_d_area_body_exited"]
