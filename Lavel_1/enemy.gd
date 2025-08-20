@@ -6,15 +6,12 @@ extends CharacterBody2D
 @export var stop_distance = 35
 @export var lose_sight_delay = 2.0  
 @export var attack_cooldown = 0.5
-
 var blood = preload("res://Efeitos/Blood.tscn")
-
 @onready var audio = $AudioStreamPlayer
 @onready var Hitbox = $E_Area/E_Hitbox
 @onready var target = $"../Player"
 @onready var mat = $Enemy_Runner.material
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
-
 var search = false
 var founded = false
 var players_in_area = []
@@ -30,6 +27,11 @@ func morrer():
 		blood_instance.rotation = direction.angle()
 		get_parent().add_child(blood_instance)
 	queue_free()
+
+func _DemageEffect(a,t,b):
+	mat.set("shader_parameter/hit_effect", a)
+	await get_tree().create_timer(t).timeout
+	mat.set("shader_parameter/hit_effect", b)
 
 func _ready() -> void:
 	health = 100
@@ -100,6 +102,7 @@ func _attack() -> void:
 	if target:
 		$Arm_Runner.play("Stab")
 		target.health -= 20
+		target._DemageEffect(0.7,0.2,0.0)
 		Hitbox.debug_color = Color(0.865, 0.001, 0.864, 0.42)
 		await get_tree().create_timer(0.3).timeout
 		$Arm_Runner.stop()

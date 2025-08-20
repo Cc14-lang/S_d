@@ -18,11 +18,9 @@ func _on_body_entered(body: Node2D) -> void:
 		var mats = []
 		for sprite_name in ["BodySprite", "Enemy_Shooter", "Enemy_Runner"]:
 			if body.has_node(sprite_name):
-				var mat = body.get_node(sprite_name).material
-				if mat:
-					mat.set("shader_parameter/hit_effect", 1.0)
-					await get_tree().create_timer(0.2).timeout
-					mat.set("shader_parameter/hit_effect", 0.0)
+				body._DemageEffect(0.8,0.2,0.0)
+			elif sprite_name == "Enemy_Shooter" or "Enemy_Runner":
+				body.founded = true
 		queue_free()
 	elif body is TileMapLayer:
 		queue_free()

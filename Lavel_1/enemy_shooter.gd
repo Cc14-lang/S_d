@@ -6,15 +6,12 @@ extends CharacterBody2D
 @export var stop_distance = 150.0
 @export var shoot_cooldown = 0.5
 @export var lose_sight_delay = 2.0
-
 var bullet = preload("res://Efeitos/bullet.tscn")
 var blood = preload("res://Efeitos/Blood.tscn")
-
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var mat = $Enemy_Shooter.material
 @onready var target = $"../Player"
 @onready var shoot_point = $Marker2D
-
 var players_in_area: Array = []
 var founded = false
 var search = false
@@ -30,6 +27,11 @@ func morrer():
 		blood_instance.rotation = direction.angle()
 		get_parent().add_child(blood_instance)
 	queue_free()
+
+func _DemageEffect(a,t,b):
+	mat.set("shader_parameter/hit_effect", a)
+	await get_tree().create_timer(t).timeout
+	mat.set("shader_parameter/hit_effect", b)
 
 func _ready() -> void:
 	health = 100
