@@ -28,16 +28,38 @@ var respawn = Vector2(648.0 , 488.0)
 
 var Inventary = 1  
 
+func _sound():
+	var circle_attentation = Area2D.new()
+	var circle_collsion = CollisionShape2D.new()
+	var circle_shape = CircleShape2D.new()
+	circle_shape.radius = 230
+	circle_collsion.debug_color = Color(0.87, 0.305, 0.455, 0.18)
+	circle_collsion.shape = circle_shape
+	circle_attentation.add_child(circle_collsion)
+	circle_attentation.position = self.position
+	get_tree().current_scene.add_child(circle_attentation)
+	circle_attentation.body_entered.connect(_on_circle_body_entered)
+	get_tree().create_timer(0.5).timeout.connect(
+		func():
+			if circle_attentation:
+				circle_attentation.queue_free()
+	)
+
+
 func _Stab():
 	if can_beat:
 		can_beat = false
 		hitbox.disabled = false
 		hitbox.debug_color = Color(0.865, 0.001, 0.864, 0.42)
 		Male.play("Stab")
+		get_tree().create_timer(0.1).timeout.connect(
+		func():
+			hitbox.disabled = true
+			hitbox.debug_color = Color(0.969, 0.0, 0.965, 0.094)
+	)	
 		await get_tree().create_timer(beat_cooldown).timeout
 		Male.stop()
 		can_beat = true
-		hitbox.disabled = true
 		hitbox.debug_color = Color(0.969, 0.0, 0.965, 0.094)
 
 func _DemageEffect(a,t,b):
@@ -176,6 +198,7 @@ func _physics_process(delta: float) -> void:
 				2:
 					if can_shoot:
 						shoot()
+						_sound()
 						can_shoot = false
 						shoot_timer = 0.0
 
@@ -221,3 +244,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			body.health -= 25
 			body._KnockBack(self.global_position,50)
 			body._DemageEffect(0.6, 0.2, 0.0)
+
+func _on_circle_body_entered(body: Node) -> void:
+	if body is CharacterBody2D:
+		if body.get_meta("Class") == "Enemy":
+			body.founded = true

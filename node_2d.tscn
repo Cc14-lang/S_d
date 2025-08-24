@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=4 uid="uid://dwy57xveerdgg"]
+[gd_scene load_steps=85 format=4 uid="uid://dwy57xveerdgg"]
 
 [ext_resource type="Shader" uid="uid://b60r2amiolhbm" path="res://Menu_/Pass.gdshader" id="1_2hxjc"]
 [ext_resource type="Script" uid="uid://0yicvic84dma" path="res://Lavel_1/Scene_Level1.gd" id="1_cjlbh"]
@@ -36,6 +36,7 @@
 [ext_resource type="Texture2D" uid="uid://ou4fv5kej3af" path="res://images/Nbar.png" id="23_lbrxf"]
 [ext_resource type="FontFile" uid="uid://bg7m55wv7nf87" path="res://Menu_/Silkscreen-Regular.ttf" id="24_xjt7e"]
 [ext_resource type="Texture2D" uid="uid://bfmgqvl6wm0ic" path="res://Efeitos/Img/Button_Reload1.png" id="26_ma08v"]
+[ext_resource type="Texture2D" uid="uid://clvhd3dfgqldc" path="res://Efeitos/S+teve_Full.png" id="26_whnp6"]
 [ext_resource type="Texture2D" uid="uid://dj4sntge83uls" path="res://Efeitos/Img/Button_Roll1.png" id="26_ytlpd"]
 [ext_resource type="Texture2D" uid="uid://c2x7me1vjit14" path="res://Efeitos/Img/Button_Roll2.png" id="27_2v765"]
 [ext_resource type="Texture2D" uid="uid://c18c5c15kg61e" path="res://Efeitos/Img/Button_Reload2.png" id="27_s32dh"]
@@ -178,7 +179,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0h7mo"]
-size = Vector2(24, 30)
+size = Vector2(34, 38)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ma08v"]
 animations = [{
@@ -232,8 +233,8 @@ animations = [{
 texture = ExtResource("33_037st")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0h7mo"]
-radius = 18.0
-height = 48.4348
+radius = 14.0
+height = 68.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6orn5"]
 radius = 2.0
@@ -464,14 +465,15 @@ script = ExtResource("1_cjlbh")
 metadata/_edit_horizontal_guides_ = [752.0]
 
 [node name="Background_Menu" type="TextureRect" parent="."]
+visible = false
 z_index = -10
 texture_filter = 1
 texture_repeat = 3
 material = SubResource("ShaderMaterial_2u7jv")
-offset_left = -6952.0
-offset_top = -5136.0
-offset_right = -5706.0
-offset_bottom = -4576.0
+offset_left = -6341.0
+offset_top = -5070.0
+offset_right = -5095.0
+offset_bottom = -4510.0
 scale = Vector2(11.666, 22.2905)
 pivot_offset = Vector2(20.8205, 19.7014)
 texture = SubResource("CurveXYZTexture_24dk6")
@@ -541,7 +543,7 @@ frame_progress = 1.0
 position = Vector2(35, 0)
 
 [node name="Hitbox" type="CollisionShape2D" parent="Player/Hitbox_Area"]
-position = Vector2(-1, -17)
+position = Vector2(4, -15)
 shape = SubResource("RectangleShape2D_0h7mo")
 disabled = true
 debug_color = Color(0.956989, 0.154562, 0.359347, 0.42)
@@ -571,6 +573,12 @@ modulate = Color(0.164706, 0.419608, 0.141176, 1)
 position = Vector2(0.400009, -7.53928)
 scale = Vector2(0.0135081, 0.0128222)
 texture = ExtResource("15_gt76g")
+
+[node name="Player_Img" type="Sprite2D" parent="Camera2D/Health_Layer/Health_Img"]
+self_modulate = Color(0.780702, 0.780702, 0.780702, 1)
+position = Vector2(-16.45, 0.314132)
+scale = Vector2(0.0515625, 0.0543194)
+texture = ExtResource("26_whnp6")
 
 [node name="Helth_Number" type="Label" parent="Camera2D/Health_Layer/Health_Img"]
 anchors_preset = -1
@@ -662,6 +670,7 @@ autoplay = "default"
 frame_progress = 0.623046
 
 [node name="Sh_Layer" type="CanvasLayer" parent="Camera2D"]
+visible = false
 
 [node name="Shadow" type="Sprite2D" parent="Camera2D/Sh_Layer"]
 self_modulate = Color(1, 1, 1, 0.372549)
@@ -670,10 +679,12 @@ scale = Vector2(1.33594, 0.749023)
 texture = ExtResource("16_1fr6y")
 
 [node name="Clock_Layer" type="CanvasLayer" parent="Camera2D"]
+offset = Vector2(12, 0)
+transform = Transform2D(1, 0, 0, 1, 12, 0)
 
 [node name="Clock_Panel" type="Panel" parent="Camera2D/Clock_Layer"]
-offset_left = 1184.0
-offset_right = 1368.0
+offset_left = 1261.0
+offset_right = 1445.0
 offset_bottom = 128.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_whnp6")
 script = ExtResource("34_6orn5")
@@ -710,7 +721,7 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(440, 1119)
 rotation = -1.57079
 script = ExtResource("12_0h7mo")
-stop_distance = 30
+stop_distance = 26
 metadata/Class = "Enemy"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Enemy_Runner"]
@@ -815,8 +826,13 @@ position = Vector2(440, 1290)
 scale = Vector2(4, 4)
 texture = ExtResource("50_4qosj")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+debug_color = Color(0.869805, 0.305217, 0.455407, 0.42)
+
 [connection signal="body_entered" from="Player/Hitbox_Area" to="Player" method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="Player/Ghost_Timer" to="Player" method="_on_ghost_timer_timeout"]
+[connection signal="mouse_entered" from="Camera2D/Clock_Layer/Clock_Panel" to="Camera2D/Clock_Layer/Clock_Panel" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Camera2D/Clock_Layer/Clock_Panel" to="Camera2D/Clock_Layer/Clock_Panel" method="_on_mouse_exited"]
 [connection signal="body_entered" from="Enemy_Runner/BackStab_Spot" to="Enemy_Runner" method="_on_back_stab_spot_body_entered"]
 [connection signal="body_entered" from="Enemy_Runner/E_Area" to="Enemy_Runner" method="_on_e_area_body_entered"]
 [connection signal="body_entered" from="Enemy_Runner/D_Area" to="Enemy_Runner" method="_on_d_area_body_entered"]

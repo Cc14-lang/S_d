@@ -7,11 +7,13 @@ extends CharacterBody2D
 @export var lose_sight_delay = 2.0  
 @export var attack_cooldown = 0.5
 var blood = preload("res://Efeitos/Blood.tscn")
+
 @onready var audio = $AudioStreamPlayer
 @onready var Hitbox = $E_Area/E_Hitbox
 @onready var target = $"../Player"
 @onready var mat = $Enemy_Runner.material
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+
 var search = false
 var founded = false
 var players_in_area = []
@@ -19,6 +21,8 @@ var lose_sight_timer = 0.0
 var knockback = Vector2.ZERO
 var can_attack = true
 var attack_timer = 0.0
+var played_attention = false   # <<< flag para não travar o _process
+
 
 func morrer():
 	if blood:
@@ -29,16 +33,19 @@ func morrer():
 		get_parent().add_child(blood_instance)
 	queue_free()
 
-func _KnockBack(t,s):
+
+func _KnockBack(t, s):
 	var direction = (self.global_position - t).normalized()
 	velocity = direction * s * 4
 	await get_tree().create_timer(0.2).timeout
 	velocity = Vector2.ZERO
 
-func _DemageEffect(a,t,b):
+
+func _DemageEffect(a, t, b):
 	mat.set("shader_parameter/hit_effect", a)
 	await get_tree().create_timer(t).timeout
 	mat.set("shader_parameter/hit_effect", b)
+
 
 func _ready() -> void:
 	health = 100
@@ -47,22 +54,25 @@ func _ready() -> void:
 	nav_agent.target_desired_distance = stop_distance
 	nav_agent.max_speed = speed
 
+
 func _process(delta: float) -> void:
 	if health <= 0:
 		morrer()
 		return
-	if _Enable:
 
-		if target == null:
-			return
-
+	if _Enable and target != null:
 		var distance_to_target = global_position.distance_to(target.global_position)
 
 		if founded:
-			$Attentation.play("Target_Subject")
-			audio.play()
-			await get_tree().create_timer(0.7).timeout
-			$Attentation.stop()
+			if not played_attention:
+				$Attentation.play("Target_Subject")
+				audio.play()
+				played_attention = true
+				get_tree().create_timer(0.7).timeout.connect(
+					func(): $Attentation.stop()
+				)
+
+			# controle de visão
 			if players_in_area.is_empty():
 				lose_sight_timer += delta
 				if lose_sight_timer >= lose_sight_delay:
@@ -73,7 +83,6 @@ func _process(delta: float) -> void:
 				lose_sight_timer = 0.0
 
 			nav_agent.target_position = target.global_position
-
 			if not nav_agent.is_navigation_finished():
 				var next_position = nav_agent.get_next_path_position()
 				var direction = (next_position - global_position).normalized()
@@ -92,32 +101,38 @@ func _process(delta: float) -> void:
 					_attack()
 					can_attack = false
 					attack_timer = 0.0
+
 		else:
 			velocity = Vector2.ZERO
 			$Enemy_Runner.stop()
+			played_attention = false  # <<< reseta flag
 			if search:
 				var direction_to_target = -(target.global_position - global_position).normalized()
 				rotation = lerp_angle(rotation, -direction_to_target.angle(), delta * 2)
 
+		# cooldown de ataque
 		if not can_attack:
 			attack_timer += delta
 			if attack_timer >= attack_cooldown:
 				can_attack = true
 
+
 func _attack() -> void:
 	if target:
 		$Arm_Runner.play("Stab")
 		target.health -= 20
-		target._DemageEffect(0.7,0.2,0.0)
-		target._KnockBack(self.global_position,85)
+		target._DemageEffect(0.7, 0.2, 0.0)
+		target._KnockBack(self.global_position, 85)
 		Hitbox.debug_color = Color(0.865, 0.001, 0.864, 0.42)
 		await get_tree().create_timer(0.3).timeout
 		$Arm_Runner.stop()
 		Hitbox.debug_color = Color(0.969, 0.0, 0.965, 0.094)
 
+
 func _on_e_area_body_entered(body: Node2D) -> void:
 	if body == target and founded and can_attack:
 		pass
+
 
 func _on_d_area_body_entered(body: Node2D) -> void:
 	if body == target and not players_in_area.has(body):
@@ -125,9 +140,11 @@ func _on_d_area_body_entered(body: Node2D) -> void:
 		founded = true
 		search = true
 
+
 func _on_d_area_body_exited(body: Node2D) -> void:
 	if body == target and players_in_area.has(body):
 		players_in_area.erase(body)
+
 
 func _on_back_stab_spot_body_entered(body: Node2D) -> void:
 	if body == $"../Player/Hurtbox":
