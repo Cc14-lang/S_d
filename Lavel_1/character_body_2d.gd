@@ -8,21 +8,23 @@ extends CharacterBody2D
 @onready var timerlabel = $"../Camera2D/Timer_Layer"
 @onready var shootlabel = $"../Camera2D/Timer_Layer2"
 @onready var Ghost_Timer = $Ghost_Timer
-@onready var Pistol = $Arm_Left_Sprite
-@onready var Male = $Arm_Right_Sprite
+@onready var Pistol = $Player_Sprites/Arm_Left_Sprite
+@onready var Male = $Player_Sprites/Arm_Right_Sprite
 @export var shoot_cooldown = 2.0
-@export var beat_cooldown = 0.5
+@export var beat_cooldown = 0.4
+@export var roll_cooldown = 3.0
 @export var can_shoot = true
 @export var can_beat = true
+var spawned_blood = false
 var can_roll = true
-var roll_cooldown = 4.0
+
 var roll_timer = 0.0
 var shoot_timer = 0.0
 var blood = preload("res://Efeitos/Blood.tscn")
 var bullet = preload("res://Efeitos/bullet.tscn")
 var screen_size
 var respawn = Vector2(648.0 , 488.0)
-@onready var mat = $BodySprite.material
+@onready var mat = $Player_Sprites/BodySprite.material
 
 var Inventary = 1  
 
@@ -43,6 +45,12 @@ func _DemageEffect(a,t,b):
 	await get_tree().create_timer(t).timeout
 	mat.set("shader_parameter/hit_effect", b)
 
+func _KnockBack(t,s):
+	var direction = (self.global_position - t).normalized()
+	velocity = direction * s * 4
+	await get_tree().create_timer(0.2).timeout
+	velocity = Vector2.ZERO
+
 func _morto():
 	_Enable = false
 	var Lab = $"O-screen/R_Key"
@@ -52,11 +60,12 @@ func _morto():
 	Pistol.visible = false
 	Male.visible = false
 	hitbox.disabled = true
-	if blood:
+	if blood and not spawned_blood:
 		var blood_instance = blood.instantiate()
 		blood_instance.global_position = global_position
 		blood_instance.rotation = rotation + PI
 		get_parent().add_child(blood_instance)
+		spawned_blood = true
 
 func _respawn():
 	_Enable = true
@@ -76,14 +85,15 @@ func _Roll():
 	velocity = Vector2.ZERO
 
 func add_ghost():
-	var ghost = $BodySprite.duplicate() as AnimatedSprite2D
+	var ghost = $Player_Sprites/BodySprite.duplicate() as AnimatedSprite2D
 	ghost.position = global_position
-	ghost.scale = Vector2(0.25,0.25)
+	ghost.scale = Vector2(0.25, 0.25)
 	ghost.self_modulate = Color(1,1,1,1)
 	var mouse_pos = get_global_mouse_position()
 	ghost.rotation = (mouse_pos - global_position).angle()
-	ghost.rotate(-80)
+	ghost.rotate(deg_to_rad(80)) 
 	get_tree().current_scene.add_child(ghost)
+	await get_tree().process_frame
 	var tween = get_tree().create_tween()
 	tween.tween_property(ghost, "self_modulate", Color(1,1,1,0), 0.7)
 	tween.finished.connect(Callable(ghost, "queue_free"))
@@ -110,8 +120,8 @@ func shoot():
 	else:
 		b.global_position = global_position
 		b.global_rotation = rotation
-	if $Arm_Left_Sprite:
-		$Arm_Left_Sprite.play("Shoot")
+	if Pistol:
+		Pistol.play("Shoot")
 
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
@@ -133,10 +143,10 @@ func _physics_process(delta: float) -> void:
 			velocity.x -= 1
 		if velocity.length() > 0:
 			velocity = velocity.normalized() * speed
-			$BodySprite.play("Walk")
+			$Player_Sprites/BodySprite.play("Walk")
 		else:
 			velocity = Vector2.ZERO
-			$BodySprite.stop()
+			$Player_Sprites/BodySprite.stop()
 		self.velocity = self.velocity.lerp(velocity, delta * lerp_smooth)
 		move_and_slide()
 		var mouse_pos = get_global_mouse_position()
@@ -209,4 +219,5 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is CharacterBody2D:
 		if body.get_meta("Class") == "Enemy":
 			body.health -= 25
+			body._KnockBack(self.global_position,50)
 			body._DemageEffect(0.6, 0.2, 0.0)

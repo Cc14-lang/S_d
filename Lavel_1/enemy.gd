@@ -16,6 +16,7 @@ var search = false
 var founded = false
 var players_in_area = []
 var lose_sight_timer = 0.0
+var knockback = Vector2.ZERO
 var can_attack = true
 var attack_timer = 0.0
 
@@ -28,6 +29,12 @@ func morrer():
 		get_parent().add_child(blood_instance)
 	queue_free()
 
+func _KnockBack(t,s):
+	var direction = (self.global_position - t).normalized()
+	velocity = direction * s * 4
+	await get_tree().create_timer(0.2).timeout
+	velocity = Vector2.ZERO
+
 func _DemageEffect(a,t,b):
 	mat.set("shader_parameter/hit_effect", a)
 	await get_tree().create_timer(t).timeout
@@ -37,7 +44,6 @@ func _ready() -> void:
 	health = 100
 	Hitbox.disabled = false
 	mat.set("shader_parameter/hit_effect", 0.0)
-	
 	nav_agent.target_desired_distance = stop_distance
 	nav_agent.max_speed = speed
 
@@ -103,6 +109,7 @@ func _attack() -> void:
 		$Arm_Runner.play("Stab")
 		target.health -= 20
 		target._DemageEffect(0.7,0.2,0.0)
+		target._KnockBack(self.global_position,85)
 		Hitbox.debug_color = Color(0.865, 0.001, 0.864, 0.42)
 		await get_tree().create_timer(0.3).timeout
 		$Arm_Runner.stop()
@@ -121,3 +128,8 @@ func _on_d_area_body_entered(body: Node2D) -> void:
 func _on_d_area_body_exited(body: Node2D) -> void:
 	if body == target and players_in_area.has(body):
 		players_in_area.erase(body)
+
+func _on_back_stab_spot_body_entered(body: Node2D) -> void:
+	if body == $"../Player/Hurtbox":
+		health -= 100
+		_DemageEffect(1, 0.2, 0.0)

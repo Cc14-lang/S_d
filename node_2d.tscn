@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=4 uid="uid://dwy57xveerdgg"]
+[gd_scene load_steps=84 format=4 uid="uid://dwy57xveerdgg"]
 
 [ext_resource type="Shader" uid="uid://b60r2amiolhbm" path="res://Menu_/Pass.gdshader" id="1_2hxjc"]
 [ext_resource type="Script" uid="uid://0yicvic84dma" path="res://Lavel_1/Scene_Level1.gd" id="1_cjlbh"]
@@ -42,8 +42,11 @@
 [ext_resource type="AudioStream" uid="uid://dhp5p4mcc2gg0" path="res://audios/Alert_Sound.mp3" id="28_4qosj"]
 [ext_resource type="Texture2D" uid="uid://6kqopq2oa2b" path="res://Efeitos/Img/Button_Reload3.png" id="28_037st"]
 [ext_resource type="Texture2D" uid="uid://b47y1ly1cm4bq" path="res://Efeitos/Img/Button_Roll3.png" id="28_b8fb0"]
+[ext_resource type="Texture2D" uid="uid://b6n7tbwolyy4y" path="res://Efeitos/Img/Digital_Clock_Timer.png" id="33_037st"]
 [ext_resource type="Texture2D" uid="uid://bhyih7bv4uudu" path="res://PunchAnim/Punch_Anim_Enemy1.png" id="33_fbwgr"]
+[ext_resource type="Script" uid="uid://bd6japy5s037s" path="res://clock_panel.gd" id="34_6orn5"]
 [ext_resource type="Texture2D" uid="uid://cia1ce53j0fdh" path="res://PunchAnim/Punch_Anim_Enemy2.png" id="34_7mj2a"]
+[ext_resource type="FontFile" uid="uid://c8t4l8k52g6p2" path="res://Menu_/DS-DIGI.TTF" id="35_6orn5"]
 [ext_resource type="Texture2D" uid="uid://xg3j1m0ce6jd" path="res://PunchAnim/Punch_Anim_Enemy3.png" id="35_fshgd"]
 [ext_resource type="Texture2D" uid="uid://70mb2y3mk2cw" path="res://PunchAnim/Punch_Anim_Enemy4.png" id="36_lbrxf"]
 [ext_resource type="Texture2D" uid="uid://ciehufpnrxiw6" path="res://PunchAnim/Punch_Anim_Enemy5.png" id="37_xjt7e"]
@@ -211,13 +214,13 @@ animations = [{
 [sub_resource type="SpriteFrames" id="SpriteFrames_s32dh"]
 animations = [{
 "frames": [{
-"duration": 1.0,
+"duration": 0.7,
 "texture": ExtResource("26_ma08v")
 }, {
-"duration": 1.0,
+"duration": 0.7,
 "texture": ExtResource("27_s32dh")
 }, {
-"duration": 1.0,
+"duration": 0.7,
 "texture": ExtResource("28_037st")
 }],
 "loop": true,
@@ -225,9 +228,16 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_whnp6"]
+texture = ExtResource("33_037st")
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0h7mo"]
 radius = 18.0
 height = 48.4348
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6orn5"]
+radius = 2.0
+height = 16.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mryly"]
 shader = ExtResource("2_k73cj")
@@ -499,15 +509,16 @@ vertical_alignment = 1
 scale = Vector2(0.34, 0.5)
 shape = SubResource("CapsuleShape2D_flf07")
 
-[node name="BodySprite" type="AnimatedSprite2D" parent="Player"]
+[node name="Player_Sprites" type="Node2D" parent="Player"]
+
+[node name="BodySprite" type="AnimatedSprite2D" parent="Player/Player_Sprites"]
 material = SubResource("ShaderMaterial_rjqkl")
-position = Vector2(3.63798e-12, -1.43051e-06)
 rotation = 1.5708
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_ta5nu")
 animation = &"Walk"
 
-[node name="Arm_Right_Sprite" type="AnimatedSprite2D" parent="Player"]
+[node name="Arm_Right_Sprite" type="AnimatedSprite2D" parent="Player/Player_Sprites"]
 visible = false
 rotation = 1.57079
 scale = Vector2(0.5, 0.5)
@@ -516,9 +527,9 @@ animation = &"Stab"
 frame = 6
 frame_progress = 1.0
 
-[node name="Arm_Left_Sprite" type="AnimatedSprite2D" parent="Player"]
+[node name="Arm_Left_Sprite" type="AnimatedSprite2D" parent="Player/Player_Sprites"]
 visible = false
-position = Vector2(4.47208, 0.000100862)
+position = Vector2(4.47205, 0)
 rotation = 1.57079
 scale = Vector2(2.49999, 2.43589)
 sprite_frames = SubResource("SpriteFrames_flf07")
@@ -604,6 +615,7 @@ scale = Vector2(2.25, 2.25)
 sprite_frames = SubResource("SpriteFrames_ma08v")
 animation = &"Roll"
 autoplay = "Roll"
+frame_progress = 0.808306
 
 [node name="Timer_Layer2" type="CanvasLayer" parent="Camera2D"]
 
@@ -647,8 +659,7 @@ position = Vector2(284, 619)
 scale = Vector2(2.25, 2.25)
 sprite_frames = SubResource("SpriteFrames_s32dh")
 autoplay = "default"
-frame = 2
-frame_progress = 1.0
+frame_progress = 0.623046
 
 [node name="Sh_Layer" type="CanvasLayer" parent="Camera2D"]
 
@@ -658,10 +669,48 @@ position = Vector2(684, 383.5)
 scale = Vector2(1.33594, 0.749023)
 texture = ExtResource("16_1fr6y")
 
+[node name="Clock_Layer" type="CanvasLayer" parent="Camera2D"]
+
+[node name="Clock_Panel" type="Panel" parent="Camera2D/Clock_Layer"]
+offset_left = 1184.0
+offset_right = 1368.0
+offset_bottom = 128.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_whnp6")
+script = ExtResource("34_6orn5")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label_Time_mm" type="Label" parent="Camera2D/Clock_Layer/Clock_Panel"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 9.0
+offset_right = 100.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.47451, 0, 0, 1)
+theme_override_fonts/font = ExtResource("35_6orn5")
+theme_override_font_sizes/font_size = 55
+text = "10"
+horizontal_alignment = 2
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label_Time_ss" type="Label" parent="Camera2D/Clock_Layer/Clock_Panel"]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 5.0
+offset_right = 177.0
+offset_bottom = 66.0
+theme_override_colors/font_color = Color(0.47451, 0, 0, 1)
+theme_override_fonts/font = ExtResource("35_6orn5")
+theme_override_font_sizes/font_size = 55
+text = "10"
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
 [node name="Enemy_Runner" type="CharacterBody2D" parent="."]
 position = Vector2(440, 1119)
 rotation = -1.57079
 script = ExtResource("12_0h7mo")
+stop_distance = 30
 metadata/Class = "Enemy"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Enemy_Runner"]
@@ -671,10 +720,18 @@ stream = ExtResource("28_4qosj")
 avoidance_enabled = true
 debug_enabled = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy_Runner"]
+[node name="Collision" type="CollisionShape2D" parent="Enemy_Runner"]
 rotation = -3.14159
 scale = Vector2(0.5, 0.5)
 shape = SubResource("CapsuleShape2D_0h7mo")
+
+[node name="BackStab_Spot" type="Area2D" parent="Enemy_Runner"]
+
+[node name="Collision" type="CollisionShape2D" parent="Enemy_Runner/BackStab_Spot"]
+position = Vector2(-7, 6.10352e-05)
+scale = Vector2(1.12, 1)
+shape = SubResource("CapsuleShape2D_6orn5")
+debug_color = Color(0.791424, 0.293395, 9.62615e-08, 0.42)
 
 [node name="Enemy_Runner" type="AnimatedSprite2D" parent="Enemy_Runner"]
 material = SubResource("ShaderMaterial_mryly")
@@ -760,6 +817,7 @@ texture = ExtResource("50_4qosj")
 
 [connection signal="body_entered" from="Player/Hitbox_Area" to="Player" method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="Player/Ghost_Timer" to="Player" method="_on_ghost_timer_timeout"]
+[connection signal="body_entered" from="Enemy_Runner/BackStab_Spot" to="Enemy_Runner" method="_on_back_stab_spot_body_entered"]
 [connection signal="body_entered" from="Enemy_Runner/E_Area" to="Enemy_Runner" method="_on_e_area_body_entered"]
 [connection signal="body_entered" from="Enemy_Runner/D_Area" to="Enemy_Runner" method="_on_d_area_body_entered"]
 [connection signal="body_exited" from="Enemy_Runner/D_Area" to="Enemy_Runner" method="_on_d_area_body_exited"]
