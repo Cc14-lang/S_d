@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var health = 100
+@onready var health = $Health
 @export var speed = 250
 @export var _Enable = true
 @export var lerp_smooth = 10
@@ -17,12 +17,12 @@ extends CharacterBody2D
 @export var can_beat = true
 var spawned_blood = false
 var can_roll = true
-
 var roll_timer = 0.0
 var shoot_timer = 0.0
 var blood = preload("res://Efeitos/Blood.tscn")
 var bullet = preload("res://Efeitos/bullet.tscn")
 var screen_size
+var founded
 var respawn = Vector2(648.0 , 488.0)
 @onready var mat = $Player_Sprites/BodySprite.material
 
@@ -174,6 +174,7 @@ func _physics_process(delta: float) -> void:
 		var mouse_pos = get_global_mouse_position()
 		var direction = (mouse_pos - global_position).angle()
 		rotation = lerp_angle(rotation, direction, delta * 8)
+		
 
 		if Input.is_action_just_pressed("Equip_1"):
 			Inventary = 1
@@ -206,10 +207,10 @@ func _physics_process(delta: float) -> void:
 			if can_roll:
 				_Roll()
 
-	if health <= 0:
+	if health.current <= 0:
 		_morto()
 		if Input.is_action_just_pressed("Enter"):
-			health = 100
+			health.current = 100
 			_respawn()
 
 	if not can_roll:
@@ -241,9 +242,12 @@ func _physics_process(delta: float) -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is CharacterBody2D:
 		if body.get_meta("Class") == "Enemy":
-			body.health -= 25
-			body._KnockBack(self.global_position,50)
-			body._DemageEffect(0.6, 0.2, 0.0)
+			if body.founded == false:
+				body.health.current -= 75
+				body._DemageEffect(0.6, 0.2, 0.0)
+			else :
+				body.health.current -= 25
+				body._DemageEffect(0.6, 0.2, 0.0)
 
 func _on_circle_body_entered(body: Node) -> void:
 	if body is CharacterBody2D:

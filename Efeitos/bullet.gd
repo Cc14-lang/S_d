@@ -14,13 +14,13 @@ func _on_Bullet_body_entered(body):
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is CharacterBody2D:
-		body.health -= 50
+		body.health.current -= 50
+		body._DemageEffect(0.9,0.2,0.0)
 		var mats = []
-		for sprite_name in ["BodySprite", "Enemy_Shooter", "Enemy_Runner"]:
+		for sprite_name in ["Enemy_Shooter", "Enemy_Runner"]:
 			if body.has_node(sprite_name):
-				body._DemageEffect(0.8,0.2,0.0)
-			elif sprite_name == "Enemy_Shooter" or "Enemy_Runner":
 				body.founded = true
+				
 		queue_free()
 	elif body is TileMapLayer:
 		queue_free()

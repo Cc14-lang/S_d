@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=4 uid="uid://dwy57xveerdgg"]
+[gd_scene load_steps=86 format=4 uid="uid://dwy57xveerdgg"]
 
 [ext_resource type="Shader" uid="uid://b60r2amiolhbm" path="res://Menu_/Pass.gdshader" id="1_2hxjc"]
 [ext_resource type="Script" uid="uid://0yicvic84dma" path="res://Lavel_1/Scene_Level1.gd" id="1_cjlbh"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cciwmqvuv5tkr" path="res://Lavel_1/character_body_2d.gd" id="2_ir8iy"]
 [ext_resource type="Shader" uid="uid://by2tk8dvhhcvr" path="res://Efeitos/Demage_Shake.gdshader" id="2_k73cj"]
 [ext_resource type="Texture2D" uid="uid://0yk4lt2hbmwo" path="res://images/Player_/Walk_Anim-1.png" id="3_ir8iy"]
+[ext_resource type="Script" uid="uid://dr8bvnfebp76" path="res://addons/health_hitbox_hurtbox/health/health.gd" id="4_22e24"]
 [ext_resource type="Texture2D" uid="uid://ddthfbxmv0ny8" path="res://images/Player_/Walk_Anim-2.png" id="4_hqns4"]
 [ext_resource type="Texture2D" uid="uid://d1421vgwt1f4g" path="res://Me_`w´/Vbucks.jpg" id="5_ornx7"]
 [ext_resource type="Texture2D" uid="uid://c2xbpm3nivlt5" path="res://images/Player_/Walk_Anim-3.png" id="5_x0ka3"]
@@ -77,9 +78,8 @@ vertices = PackedVector2Array(838, 1678, 42, 1678, 42, 906, 838, 906)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(32, 1688, 848, 1688, 848, 896, 32, 896)])
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_flf07"]
-radius = 32.0
-height = 128.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_22e24"]
+size = Vector2(76.4705, 104)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rjqkl"]
 resource_local_to_scene = true
@@ -232,13 +232,8 @@ animations = [{
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_whnp6"]
 texture = ExtResource("33_037st")
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0h7mo"]
-radius = 14.0
-height = 68.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6orn5"]
-radius = 2.0
-height = 16.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m7xe6"]
+size = Vector2(22, 68)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mryly"]
 shader = ExtResource("2_k73cj")
@@ -334,9 +329,15 @@ size = Vector2(11.0015, 14.0001)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ta5nu"]
 size = Vector2(200, 248)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gt76g"]
-radius = 8.0
-height = 32.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wqmsq"]
+size = Vector2(13, 30)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_22e24"]
+shader = ExtResource("2_k73cj")
+shader_parameter/hit_effect = 0.0
+shader_parameter/shake_intensity = 10.0
+shader_parameter/flash_speed = 30.0
+shader_parameter/flash_color = Color(1, 0, 0, 1)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1fr6y"]
 animations = [{
@@ -465,7 +466,6 @@ script = ExtResource("1_cjlbh")
 metadata/_edit_horizontal_guides_ = [752.0]
 
 [node name="Background_Menu" type="TextureRect" parent="."]
-visible = false
 z_index = -10
 texture_filter = 1
 texture_repeat = 3
@@ -487,8 +487,14 @@ navigation_polygon = SubResource("NavigationPolygon_4qosj")
 position = Vector2(516, 1312)
 scale = Vector2(0.5, 0.5)
 motion_mode = 1
+safe_margin = 10.0
 script = ExtResource("2_ir8iy")
 metadata/Class = "Player"
+
+[node name="Health" type="Node" parent="Player"]
+script = ExtResource("4_22e24")
+revivable = false
+metadata/_custom_type_script = "uid://dr8bvnfebp76"
 
 [node name="O-screen" type="CanvasLayer" parent="Player"]
 visible = false
@@ -508,8 +514,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Hurtbox" type="CollisionShape2D" parent="Player"]
+position = Vector2(-1, -2)
 scale = Vector2(0.34, 0.5)
-shape = SubResource("CapsuleShape2D_flf07")
+shape = SubResource("RectangleShape2D_22e24")
 
 [node name="Player_Sprites" type="Node2D" parent="Player"]
 
@@ -718,11 +725,19 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="Enemy_Runner" type="CharacterBody2D" parent="."]
-position = Vector2(440, 1119)
+position = Vector2(1033, 961)
 rotation = -1.57079
 script = ExtResource("12_0h7mo")
 stop_distance = 26
 metadata/Class = "Enemy"
+
+[node name="Health" type="Node" parent="Enemy_Runner"]
+script = ExtResource("4_22e24")
+current = 75
+max = 75
+healable = false
+revivable = false
+metadata/_custom_type_script = "uid://dr8bvnfebp76"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Enemy_Runner"]
 stream = ExtResource("28_4qosj")
@@ -732,17 +747,10 @@ avoidance_enabled = true
 debug_enabled = true
 
 [node name="Collision" type="CollisionShape2D" parent="Enemy_Runner"]
+position = Vector2(-0.5, 0)
 rotation = -3.14159
 scale = Vector2(0.5, 0.5)
-shape = SubResource("CapsuleShape2D_0h7mo")
-
-[node name="BackStab_Spot" type="Area2D" parent="Enemy_Runner"]
-
-[node name="Collision" type="CollisionShape2D" parent="Enemy_Runner/BackStab_Spot"]
-position = Vector2(-7, 6.10352e-05)
-scale = Vector2(1.12, 1)
-shape = SubResource("CapsuleShape2D_6orn5")
-debug_color = Color(0.791424, 0.293395, 9.62615e-08, 0.42)
+shape = SubResource("RectangleShape2D_m7xe6")
 
 [node name="Enemy_Runner" type="AnimatedSprite2D" parent="Enemy_Runner"]
 material = SubResource("ShaderMaterial_mryly")
@@ -785,18 +793,33 @@ shape = SubResource("RectangleShape2D_ta5nu")
 debug_color = Color(0.841326, 0.515799, 0.061147, 0.0941176)
 
 [node name="Enemy_Shooter" type="CharacterBody2D" parent="."]
-visible = false
-position = Vector2(832, 778)
+position = Vector2(1425, 875)
 rotation = 3.14159
 script = ExtResource("16_flf07")
-_Enable = false
 metadata/Class = "Enemy"
 
+[node name="Health" type="Node" parent="Enemy_Shooter"]
+script = ExtResource("4_22e24")
+current = 75
+max = 75
+metadata/_custom_type_script = "uid://dr8bvnfebp76"
+
 [node name="Hurtbox_Enemy" type="CollisionShape2D" parent="Enemy_Shooter"]
+position = Vector2(-0.5, 0)
 rotation = -3.14159
-shape = SubResource("CapsuleShape2D_gt76g")
+shape = SubResource("RectangleShape2D_wqmsq")
+
+[node name="Attentation_D" type="AnimatedSprite2D" parent="Enemy_Shooter"]
+position = Vector2(-15, 6.10352e-05)
+rotation = -1.57079
+sprite_frames = SubResource("SpriteFrames_2v765")
+animation = &"Target_Subject"
+
+[node name="Fo-" type="AudioStreamPlayer" parent="Enemy_Shooter"]
+stream = ExtResource("28_4qosj")
 
 [node name="Enemy_Shooter" type="AnimatedSprite2D" parent="Enemy_Shooter"]
+material = SubResource("ShaderMaterial_22e24")
 rotation = 1.57079
 scale = Vector2(1.2, 1.2)
 sprite_frames = SubResource("SpriteFrames_1fr6y")
@@ -826,14 +849,10 @@ position = Vector2(440, 1290)
 scale = Vector2(4, 4)
 texture = ExtResource("50_4qosj")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-debug_color = Color(0.869805, 0.305217, 0.455407, 0.42)
-
 [connection signal="body_entered" from="Player/Hitbox_Area" to="Player" method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="Player/Ghost_Timer" to="Player" method="_on_ghost_timer_timeout"]
 [connection signal="mouse_entered" from="Camera2D/Clock_Layer/Clock_Panel" to="Camera2D/Clock_Layer/Clock_Panel" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Camera2D/Clock_Layer/Clock_Panel" to="Camera2D/Clock_Layer/Clock_Panel" method="_on_mouse_exited"]
-[connection signal="body_entered" from="Enemy_Runner/BackStab_Spot" to="Enemy_Runner" method="_on_back_stab_spot_body_entered"]
 [connection signal="body_entered" from="Enemy_Runner/E_Area" to="Enemy_Runner" method="_on_e_area_body_entered"]
 [connection signal="body_entered" from="Enemy_Runner/D_Area" to="Enemy_Runner" method="_on_d_area_body_entered"]
 [connection signal="body_exited" from="Enemy_Runner/D_Area" to="Enemy_Runner" method="_on_d_area_body_exited"]

@@ -1,13 +1,12 @@
 extends CharacterBody2D
 
-@export var health = 100
 @export var speed = 200.0
 @export var _Enable = true
 @export var stop_distance = 35
 @export var lose_sight_delay = 2.0  
 @export var attack_cooldown = 0.5
 var blood = preload("res://Efeitos/Blood.tscn")
-
+@onready var health = $Health
 @onready var audio = $AudioStreamPlayer
 @onready var Hitbox = $E_Area/E_Hitbox
 @onready var target = $"../Player"
@@ -21,7 +20,7 @@ var lose_sight_timer = 0.0
 var knockback = Vector2.ZERO
 var can_attack = true
 var attack_timer = 0.0
-var played_attention = false   # <<< flag para não travar o _process
+var played_attention = false 
 
 
 func morrer():
@@ -48,7 +47,6 @@ func _DemageEffect(a, t, b):
 
 
 func _ready() -> void:
-	health = 100
 	Hitbox.disabled = false
 	mat.set("shader_parameter/hit_effect", 0.0)
 	nav_agent.target_desired_distance = stop_distance
@@ -56,7 +54,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if health <= 0:
+	if health.current <= 0:
 		morrer()
 		return
 
@@ -72,7 +70,6 @@ func _process(delta: float) -> void:
 					func(): $Attentation.stop()
 				)
 
-			# controle de visão
 			if players_in_area.is_empty():
 				lose_sight_timer += delta
 				if lose_sight_timer >= lose_sight_delay:
@@ -105,12 +102,12 @@ func _process(delta: float) -> void:
 		else:
 			velocity = Vector2.ZERO
 			$Enemy_Runner.stop()
-			played_attention = false  # <<< reseta flag
+			played_attention = false  
 			if search:
 				var direction_to_target = -(target.global_position - global_position).normalized()
 				rotation = lerp_angle(rotation, -direction_to_target.angle(), delta * 2)
 
-		# cooldown de ataque
+		
 		if not can_attack:
 			attack_timer += delta
 			if attack_timer >= attack_cooldown:
@@ -120,7 +117,7 @@ func _process(delta: float) -> void:
 func _attack() -> void:
 	if target:
 		$Arm_Runner.play("Stab")
-		target.health -= 20
+		target.health.current -= 20
 		target._DemageEffect(0.7, 0.2, 0.0)
 		target._KnockBack(self.global_position, 85)
 		Hitbox.debug_color = Color(0.865, 0.001, 0.864, 0.42)
@@ -140,13 +137,6 @@ func _on_d_area_body_entered(body: Node2D) -> void:
 		founded = true
 		search = true
 
-
 func _on_d_area_body_exited(body: Node2D) -> void:
 	if body == target and players_in_area.has(body):
 		players_in_area.erase(body)
-
-
-func _on_back_stab_spot_body_entered(body: Node2D) -> void:
-	if body == $"../Player/Hurtbox":
-		health -= 100
-		_DemageEffect(1, 0.2, 0.0)

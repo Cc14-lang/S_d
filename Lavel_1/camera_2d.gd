@@ -31,9 +31,9 @@ func _process(delta: float) -> void:
 		target_zoom = Default
 	
 	if Player:
-		Health_Text.text = str(Player.health)
+		Health_Text.text = str(Player.health.current)
 		for level in level_Health:
-			if Player.health in level["range"]:
+			if Player.health.current in level["range"]:
 				Health_Text.modulate = level["color"]
 				break
 	if Player._Enable == false:
